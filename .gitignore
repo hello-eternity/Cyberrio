@@ -1,0 +1,11 @@
+/.idea/
+/precheck_results/
+*/tmp
+*/*/tmp
+*.hex*
+*.lst
+*.vcd
+*.gtkw
+/verilog/build/
+/verilog/tests/build/
+.vscode/
