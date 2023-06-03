@@ -1,0 +1,23 @@
+(DELAYFILE
+ (SDFVERSION "3.0")
+ (DESIGN "user_project_wrapper")
+ (DATE "Sat Jun  3 01:52:17 2023")
+ (VENDOR "Parallax")
+ (PROGRAM "STA")
+ (VERSION "2.3.2")
+ (DIVIDER .)
+ (VOLTAGE 1.800::1.800)
+ (PROCESS "1.000::1.000")
+ (TEMPERATURE 25.000::25.000)
+ (TIMESCALE 1ns)
+ (CELL
+  (CELLTYPE "user_project_wrapper")
+  (INSTANCE)
+  (DELAY
+   (ABSOLUTE
+    (INTERCONNECT wb_clk_i my_core.clk (0.902:0.902:0.902))
+    (INTERCONNECT wb_rst_i my_core.reset (0.401:0.401:0.401))
+   )
+  )
+ )
+)
