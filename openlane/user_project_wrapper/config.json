@@ -4,24 +4,27 @@
         "dir::../../verilog/rtl/defines.v",
         "dir::../../verilog/rtl/user_project_wrapper.v"
     ],
-    "ROUTING_CORES": 1,
-    "CLOCK_PERIOD": 25,
+    "ROUTING_CORES": 16,
+    "CLOCK_PERIOD": 10,
     "CLOCK_PORT": "wb_clk_i",
-    "CLOCK_NET": "mprj.clk",
-    "FP_PDN_MACRO_HOOKS": "mprj vccd1 vssd1 vccd1 vssd1",
+    "CLOCK_NET": "my_core.clk",
+    "FP_PDN_MACRO_HOOKS": "my_core vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
         "dir::../../verilog/rtl/defines.v",
-        "dir::../../verilog/rtl/user_proj_example.v"
+        "dir::../../verilog/gl/core.v"
     ],
-    "EXTRA_LEFS": "dir::../../lef/user_proj_example.lef",
-    "EXTRA_GDS_FILES": "dir::../../gds/user_proj_example.gds",
+    "EXTRA_LEFS": "dir::../../lef/core.lef",
+    "EXTRA_GDS_FILES": "dir::../../gds/core.gds",
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
+    "DESIGN_IS_CORE":true,
+    "RUN_KLAYOUT_DRC":0,
+    "QUIT_ON_MAGIC_DRC":0,
     "FP_PDN_CHECK_NODES": 0,
     "SYNTH_ELABORATE_ONLY": 1,
-    "PL_RANDOM_GLB_PLACEMENT": 1,
+    "PL_RANDOM_GLB_PLACEMENT": 0,
     "PL_RESIZER_DESIGN_OPTIMIZATIONS": 0,
     "PL_RESIZER_TIMING_OPTIMIZATIONS": 0,
     "PL_RESIZER_BUFFER_INPUT_PORTS": 0,
@@ -69,11 +72,11 @@
     ],
     "SYNTH_USE_PG_PINS_DEFINES": "USE_POWER_PINS",
     "pdk::sky130*": {
-        "RT_MAX_LAYER": "met4",
+        "RT_MAX_LAYER": "met5",
         "DIE_AREA": "0 0 2920 3520",
         "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 25
+            "CLOCK_PERIOD": 10
         },
         "scl::sky130_fd_sc_hdll": {
             "CLOCK_PERIOD": 10

@@ -1,4 +1,8 @@
 module execute (
+    `ifdef USE_POWER_PINS
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
+    `endif
     input clk,
 
     // from decode
@@ -76,6 +80,10 @@ module execute (
 
 // Instantiate a compare module for comparison operations
 cmp ex_cmp (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     .input_a(rs1_bypassed_in ? rs1_bypass_in : rs1_data_in),
     .input_b(rs2_bypassed_in ? rs2_bypass_in : rs2_data_in),
@@ -85,6 +93,10 @@ cmp ex_cmp (
 
 // Instantiate an ALU module for arithmetic and logic operations
 alu ex_alu (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     .input_a(alu_input_a),
     .input_b(alu_input_b),

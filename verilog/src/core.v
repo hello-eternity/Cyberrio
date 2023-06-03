@@ -1,6 +1,12 @@
 module core #(
     parameter RESET_VECTOR = 32'h8000_0000
 ) (
+
+`ifdef USE_POWER_PINS
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
+`endif
+
     input clk,
     input reset,
 
@@ -19,6 +25,10 @@ module core #(
 pipeline #(
     .RESET_VECTOR(RESET_VECTOR)
 ) core_pipeline (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     .reset(reset),
 
@@ -53,7 +63,10 @@ wire mem_ready;
 
 busio core_busio (
     /* .clk(clk), */
-
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .ext_valid(ext_valid),
     .ext_instruction(ext_instruction),
     .ext_ready(ext_ready),

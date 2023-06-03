@@ -32,7 +32,7 @@
 module user_project_wrapper #(
     parameter BITS = 32
 ) (
-`ifdef USE_POWER_PINS
+`ifdef USE_POWER_PINS 
     inout vdda1,	// User area 1 3.3V supply
     inout vdda2,	// User area 2 3.3V supply
     inout vssa1,	// User area 1 analog ground
@@ -42,7 +42,6 @@ module user_project_wrapper #(
     inout vssd1,	// User area 1 digital ground
     inout vssd2,	// User area 2 digital ground
 `endif
-
     // Wishbone Slave ports (WB MI A)
     input wb_clk_i,
     input wb_rst_i,
@@ -82,42 +81,27 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-user_proj_example mprj (
-`ifdef USE_POWER_PINS
-	.vccd1(vccd1),	// User area 1 1.8V power
-	.vssd1(vssd1),	// User area 1 digital ground
-`endif
-
-    .wb_clk_i(wb_clk_i),
-    .wb_rst_i(wb_rst_i),
-
-    // MGMT SoC Wishbone Slave
-
-    .wbs_cyc_i(wbs_cyc_i),
-    .wbs_stb_i(wbs_stb_i),
-    .wbs_we_i(wbs_we_i),
-    .wbs_sel_i(wbs_sel_i),
-    .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
-
-    // Logic Analyzer
-
-    .la_data_in(la_data_in),
-    .la_data_out(la_data_out),
-    .la_oenb (la_oenb),
-
-    // IO Pads
-
-    .io_in ({io_in[37:30],io_in[7:0]}),
-    .io_out({io_out[37:30],io_out[7:0]}),
-    .io_oeb({io_oeb[37:30],io_oeb[7:0]}),
-
-    // IRQ
-    .irq(user_irq)
+core my_core (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1), // User area 1 1.8V power
+    .vssd1(vssd1), // User area 1 digital ground
+    `endif
+    .clk(wb_clk_i),
+    .reset(wb_rst_i),
+    .meip(user_irq[0]), // Assuming user_irq[0] is MEIP (Machine External Interrupt Pending)
+    // Memory interface (connected to Wishbone)
+    .ext_valid(wbs_stb_i),  // External Valid signal asserted when Wishbone cycle and strobe are high
+    .ext_instruction(wbs_we_i),  // Assuming ext_instruction is equivalent to Wishbone write-enable
+    .ext_ready(wbs_ack_o),       // Assuming ext_ready is equivalent to Wishbone acknowledge
+    .ext_address(wbs_adr_i),
+    .ext_write_data(wbs_dat_i),
+    .ext_write_strobe(wbs_sel_i),
+    .ext_read_data(wbs_dat_o)
 );
 
-endmodule	// user_project_wrapper
+/*--------------------------------------*/
+/* Unused signals are tied off here    */
+/*--------------------------------------*/
 
-`default_nettype wire
+
+endmodule

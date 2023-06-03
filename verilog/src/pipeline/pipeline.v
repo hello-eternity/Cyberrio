@@ -1,6 +1,10 @@
 module pipeline #(
     parameter RESET_VECTOR = 32'h8000_0000
 ) (
+    `ifdef USE_POWER_PINS
+    inout vccd1,	// User area 1 1.8V supply
+    inout vssd1,	// User area 1 digital ground
+    `endif
     input clk,
     input reset,
 
@@ -27,6 +31,10 @@ module pipeline #(
 );
 
 csr pipeline_csr (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     .reset(reset),
 
@@ -84,6 +92,10 @@ wire global_mret;
 wire global_wfi;
 
 regfile pipeline_registers (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
 
     // from decode (read ports)
@@ -107,6 +119,10 @@ wire [4:0] writeback_to_regfile_rd_address;
 wire [31:0] writeback_to_regfile_rd_data;
 
 hazard pipeline_hazard (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .reset(reset),
 
     // from decode
@@ -180,6 +196,10 @@ wire global_branch_taken;
 fetch #(
     .RESET_VECTOR(RESET_VECTOR)
 ) pipeline_fetch (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     .reset(reset),
 
@@ -219,6 +239,10 @@ wire [31:0] fetch_to_decode_instruction;
 wire fetch_to_decode_valid;
 
 decode pipeline_decode (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
 
     // from fetch
@@ -337,6 +361,10 @@ wire [3:0] decode_to_execute_ecause;
 wire decode_to_execute_exception;
 
 execute pipeline_execute (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
 
     // from decode
@@ -437,6 +465,10 @@ wire [3:0] execute_to_memory_ecause;
 wire execute_to_memory_exception;
 
 memory pipeline_memory (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     .clk(clk),
     // from execute
     .pc_in(execute_to_memory_pc),
@@ -524,6 +556,10 @@ wire [3:0] memory_to_writeback_ecause;
 wire memory_to_writeback_exception;
 
 writeback pipeline_writeback (
+    `ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V supply
+    .vssd1(vssd1),	// User area 1 digital ground
+    `endif
     /* .clk(clk), */
 
     // from memory
